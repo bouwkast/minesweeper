@@ -6,12 +6,14 @@ public class Cell {
     private boolean isRevealed;
     private boolean isMarked;
     private int neighborMines;
+    private boolean isFirst;
 
     public Cell(boolean isBomb) {
         this.isBomb = isBomb;
         isRevealed = false;
         isMarked = false;
         neighborMines = 0;
+        isFirst = false;
     }
 
     public boolean isRevealed() {
@@ -44,5 +46,13 @@ public class Cell {
 
     public void setNeighborMines(int neighborMines) {
         this.neighborMines = neighborMines;
+    }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
     }
 }
