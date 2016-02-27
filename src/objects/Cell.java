@@ -48,6 +48,10 @@ public class Cell {
         this.neighborMines = neighborMines;
     }
 
+    public void incNeighborMines() {
+        neighborMines++;
+    }
+
     public boolean isFirst() {
         return isFirst;
     }

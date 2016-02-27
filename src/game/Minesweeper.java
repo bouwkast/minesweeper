@@ -14,7 +14,7 @@ public class Minesweeper {
 
     public Minesweeper() {
         grid = new Cell[numRows][numCols];
-        numMines = (int)(numRows * numCols * .8);
+        numMines = (int)(numRows * numCols * .15);
         setupBoard();
     }
     public Minesweeper(int numRows, int numCols) {
@@ -46,12 +46,14 @@ public class Minesweeper {
             Random random = new Random();
             int row = random.nextInt(numRows);
             int col = random.nextInt(numCols);
+
             // Transfer over to a map/set/array for more efficiency
-            if(!grid[row][col].isBomb() && !grid[row][col].isFirst()) {
+            if(!grid[row][col].isBomb()) {
                 grid[row][col].setBomb(true);
                 --iterations;
             }
         }
+        calcNeighbors();
     }
 
     public int getNumRows() {
@@ -80,6 +82,67 @@ public class Minesweeper {
 
     public Cell[][] getGrid() {
         return grid;
+    }
+
+    public void revealCells(int row, int col) {
+        if(row < 0) return;
+        if(col < 0) return;
+        if(row >= numRows) return;
+        if(col >= numCols) return;
+
+
+        if(grid[row][col].isRevealed() || grid[row][col].isMarked() || grid[row][col].isBomb()) return;
+        if(grid[row][col].getNeighborMines() > 0) {
+            grid[row][col].setRevealed(true);
+            return;
+        }
+        grid[row][col].setRevealed(true);
+        revealCells(row - 1, col);
+        revealCells(row + 1, col);
+        revealCells(row, col - 1);
+        revealCells(row, col + 1);
+    }
+
+    private void calcNeighbors() {
+        for(int row = 0; row < numRows; ++row) {
+            for(int col = 0; col < numCols; ++col) {
+                // need to check 8 directions to see if there is a bomb in it
+                if(grid[row][col].isBomb()) { // for each cell containing a bomb just increment all neighbor cells
+                    // up
+                    if(row - 1 > -1 && !grid[row - 1][col].isBomb()) {
+                        grid[row - 1][col].incNeighborMines();
+                    }
+                    // up right
+                    if(row - 1 > -1 && col + 1 < numCols && !grid[row - 1][col + 1].isBomb()) {
+                        grid[row - 1][col + 1].incNeighborMines();
+                    }
+                    // right
+                    if(col + 1 < numCols && !grid[row][col+1].isBomb()) {
+                        grid[row][col+1].incNeighborMines();
+                    }
+                    // right down
+                    if(row + 1 < numRows && col + 1 < numCols && !grid[row+1][col+1].isBomb()) {
+                        grid[row+1][col+1].incNeighborMines();
+                    }
+                    // down
+                    if(row + 1 < numRows && !grid[row + 1][col].isBomb()) {
+                        grid[row+1][col].incNeighborMines();
+                    }
+                    // down left
+                    if(row + 1 < numRows && col - 1 > -1 && !grid[row+1][col-1].isBomb()) {
+                        grid[row+1][col-1].incNeighborMines();
+                    }
+                    // left
+                    if(col - 1 > -1 && !grid[row][col-1].isBomb()) {
+                        grid[row][col-1].incNeighborMines();
+                    }
+                    // up left
+                    if(row - 1 > -1 && col - 1 > -1 && !grid[row - 1][col - 1].isBomb()) {
+                        grid[row - 1][col - 1].incNeighborMines();
+                    }
+                }
+            }
+        }
     }
 
 }
