@@ -6,6 +6,8 @@ import view.MineGUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MineController {
 
@@ -19,7 +21,66 @@ public class MineController {
     public MineController(MineGUI view, Minesweeper game) {
         this.view = view;
         this.game = game;
-        this.view.addMineListener(new MineListener());
+        this.view.addMineListener(new MineListener(), new MineMouseListener());
+    }
+
+    class MineMouseListener implements MouseListener {
+
+        /**
+         * Invoked when the mouse button has been clicked (pressed
+         * and released) on a component.
+         *
+         * @param e
+         */
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.out.println("hi");
+
+        }
+
+        /**
+         * Invoked when a mouse button has been pressed on a component.
+         *
+         * @param e
+         */
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        /**
+         * Invoked when a mouse button has been released on a component.
+         *
+         * @param e
+         */
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if(e.getButton() == MouseEvent.BUTTON3) {
+                findCell(e);
+                game.getGrid()[selRow][selCol].setMarked(true);
+                view.getButtonAt(selRow, selCol).setText("X");
+            }
+        }
+
+        /**
+         * Invoked when the mouse enters a component.
+         *
+         * @param e
+         */
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        /**
+         * Invoked when the mouse exits a component.
+         *
+         * @param e
+         */
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 
     class MineListener implements ActionListener {
@@ -31,30 +92,49 @@ public class MineController {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            findCell(e);
-            System.out.println(selRow + " " + selCol);
-            if(firstClick) {
-//                game.getGrid()[selRow][selCol].setFirst(true);
-                game.placeMines(selRow, selCol);
-
-                firstClick = false;
-            }
-            game.revealCells(selRow, selCol);
-            view.findBombs(game);
-            view.revealButtons(game);
-
-            view.getButtonAt(selRow, selCol).setBackground(Color.LIGHT_GRAY);
-
-
-        }
-
-        private void findCell(ActionEvent e) {
-            for(int row = 0; row < game.getNumRows(); ++row) {
-                for(int col = 0; col < game.getNumCols(); ++col) {
-                    if(e.getSource() == view.getButtonAt(row, col)) {
-                        selRow = row;
-                        selCol = col;
+            if (e.getSource() == view.getRestart()) {
+                game = new Minesweeper();
+                view.enableBoard();
+                view.resetButtons();
+                firstClick = true;
+            } else {
+                findCell(e);
+                System.out.println(selRow + " " + selCol);
+                if (!game.getGrid()[selRow][selCol].isMarked()) {
+                    if (firstClick) {
+                        game.placeMines(selRow, selCol);
+                        firstClick = false;
                     }
+
+                    if (game.getGrid()[selRow][selCol].isBomb()) {
+                        game.getGrid()[selRow][selCol].setRevealed(true);
+                        view.getButtonAt(selRow, selCol).setText("B");
+                    }
+
+                    game.revealCells(selRow, selCol);
+                    view.revealButtons(game);
+                    int winner = game.win();
+                    if (winner == 2) {
+                        view.setTitle("LOSE");
+                        view.findBombs(game);
+                        view.disableBoard();
+                    } else if (winner == 1) {
+                        view.setTitle("WIN");
+                        view.findBombs(game);
+                        view.disableBoard();
+                    }
+
+                    view.getButtonAt(selRow, selCol).setBackground(Color.LIGHT_GRAY);
+                }
+            }
+        }
+    }
+    private void findCell(AWTEvent e) {
+        for(int row = 0; row < game.getNumRows(); ++row) {
+            for(int col = 0; col < game.getNumCols(); ++col) {
+                if(e.getSource() == view.getButtonAt(row, col)) {
+                    selRow = row;
+                    selCol = col;
                 }
             }
         }

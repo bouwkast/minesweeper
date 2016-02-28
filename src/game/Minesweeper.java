@@ -23,7 +23,7 @@ public class Minesweeper {
         if(numCols > 0 && numCols < 50)
             this.numCols = numCols;
         grid = new Cell[this.numRows][this.numCols];
-        numMines = (int)(numRows * numCols * .8);
+        numMines = (int)(numRows * numCols * .15);
         setupBoard();
     }
 
@@ -45,7 +45,11 @@ public class Minesweeper {
         while(iterations > 0) {
             Random random = new Random();
             int row = random.nextInt(numRows);
+            while(row == excludeRow)
+                row = random.nextInt(numRows);
             int col = random.nextInt(numCols);
+            while(col == excludeCol)
+                col = random.nextInt(numCols);
 
             // Transfer over to a map/set/array for more efficiency
             if(!grid[row][col].isBomb()) {
@@ -143,6 +147,31 @@ public class Minesweeper {
                 }
             }
         }
+    }
+
+    public boolean areAllBombsMarked() {
+        for(int row = 0; row < numRows; ++row) {
+            for(int col = 0; col < numCols; ++col) {
+                if(grid[row][col].isBomb() && !grid[row][col].isMarked()) {
+                    return false; // loss
+                }
+            }
+        }
+        return true;
+    }
+
+    public int win() {
+        for(int row = 0; row < numRows; ++row) {
+            for(int col = 0; col < numCols; ++col) {
+                if(grid[row][col].isBomb() && grid[row][col].isRevealed()) {
+                    return 2; // loss
+                }
+                if(areAllBombsMarked()) {
+                    return 1; // win
+                }
+            }
+        }
+        return 0; // game not over
     }
 
 }
