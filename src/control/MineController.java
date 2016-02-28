@@ -34,8 +34,6 @@ public class MineController {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            System.out.println("hi");
-
         }
 
         /**
@@ -99,7 +97,6 @@ public class MineController {
                 firstClick = true;
             } else {
                 findCell(e);
-                System.out.println(selRow + " " + selCol);
                 if (!game.getGrid()[selRow][selCol].isMarked()) {
                     if (firstClick) {
                         game.placeMines(selRow, selCol);
@@ -129,6 +126,10 @@ public class MineController {
             }
         }
     }
+
+    /*
+    Finds the Cell that was pressed and sets its row and column value int our selRow and selCol variables
+     */
     private void findCell(AWTEvent e) {
         for(int row = 0; row < game.getNumRows(); ++row) {
             for(int col = 0; col < game.getNumCols(); ++col) {
