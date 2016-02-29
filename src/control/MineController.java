@@ -55,8 +55,19 @@ public class MineController {
         public void mouseReleased(MouseEvent e) {
             if(e.getButton() == MouseEvent.BUTTON3) {
                 findCell(e);
-                game.getGrid()[selRow][selCol].setMarked(true);
-                view.getButtonAt(selRow, selCol).setText("X");
+                if(game.getGrid()[selRow][selCol].isMarked() && !game.getGrid()[selRow][selCol].isRevealed()) {
+                    game.getGrid()[selRow][selCol].setMarked(false);
+                    game.setNumMarks(game.getNumMarks() + 1);
+                    view.getButtonAt(selRow, selCol).setText("");
+                    view.changeBombsLeft(game.getNumMarks());
+                } else {
+                    if(game.getNumMarks() > 0 && !game.getGrid()[selRow][selCol].isRevealed()) {
+                        game.getGrid()[selRow][selCol].setMarked(true);
+                        view.getButtonAt(selRow, selCol).setText("X");
+                        game.setNumMarks(game.getNumMarks() - 1);
+                        view.changeBombsLeft(game.getNumMarks());
+                    }
+                }
             }
         }
 

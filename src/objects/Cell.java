@@ -3,10 +3,10 @@ package objects;
 public class Cell {
 
     private boolean isBomb;
-    private boolean isRevealed;
-    private boolean isMarked;
+    private boolean isRevealed; // if the Cell has been revealed through selection or the flood fill
+    private boolean isMarked; // if the Cell is marked for being a bomb
     private int neighborMines;
-    private boolean isFirst;
+    private boolean isFirst; // if it is the first Cell to have been chosen, we don't want to put a bomb there
 
     public Cell(boolean isBomb) {
         this.isBomb = isBomb;
@@ -44,9 +44,6 @@ public class Cell {
         return neighborMines;
     }
 
-    public void setNeighborMines(int neighborMines) {
-        this.neighborMines = neighborMines;
-    }
 
     public void incNeighborMines() {
         neighborMines++;

@@ -3,6 +3,7 @@ package view;
 import game.Minesweeper;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -16,24 +17,43 @@ public class MineGUI extends JFrame {
     private JMenuItem restart;
     private JMenuBar menuBar;
     private JMenu fileItem;
+    private JPanel bombsLeftPanel;
+    private JLabel bombsLeft;
 
     public MineGUI(Minesweeper game) {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
         numRows = game.getNumRows();
         numCols = game.getNumCols();
+
         mainPanel = new JPanel(new GridLayout(numRows, numCols));
         createButtons(game);
+        initializeFileMenu();
+        initializeBombsLeftPanel(game);
+
+        this.add(mainPanel, BorderLayout.SOUTH);
+        this.pack();
+        this.setVisible(true);
+    }
+
+    private void initializeBombsLeftPanel(Minesweeper game) {
+        bombsLeftPanel = new JPanel(new FlowLayout());
+        bombsLeft = new JLabel("Bombs Left: " + game.getNumMarks());
+        bombsLeftPanel.add(bombsLeft);
+        bombsLeftPanel.setPreferredSize(new Dimension(SQUARE_SIZE * numCols, SQUARE_SIZE));
+        this.add(bombsLeftPanel, BorderLayout.NORTH);
+    }
+
+    private void initializeFileMenu() {
         menuBar = new JMenuBar();
         restart = new JMenuItem("Restart Game");
         fileItem = new JMenu("File");
+
         fileItem.add(restart);
         menuBar.add(restart);
+
         this.add(menuBar);
         this.setJMenuBar(menuBar);
-
-        this.add(mainPanel);
-        this.pack();
-        this.setVisible(true);
     }
 
     private void createButtons(Minesweeper game) {
@@ -125,5 +145,9 @@ public class MineGUI extends JFrame {
                 board[row][col].setEnabled(true);
             }
         }
+    }
+
+    public void changeBombsLeft(int numBombs) {
+        bombsLeft.setText("Bombs Left: " + numBombs);
     }
 }

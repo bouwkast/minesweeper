@@ -7,14 +7,15 @@ import java.util.Random;
 
 public class Minesweeper {
 
-    private final int DEFAULT_VAL = 9;
+    private final int DEFAULT_VAL = 9; // default number of rows/cols
     private int numRows = DEFAULT_VAL, numCols = DEFAULT_VAL;
-    private Cell grid[][];
-    private int numMines; // default amount will be
+    private Cell grid[][]; // implementation of the board
+    private int numMines, numMarks; // default amount will be
 
     public Minesweeper() {
         grid = new Cell[numRows][numCols];
         numMines = (int)(numRows * numCols * .15);
+        numMarks = numMines;
         setupBoard();
     }
     public Minesweeper(int numRows, int numCols) {
@@ -24,6 +25,7 @@ public class Minesweeper {
             this.numCols = numCols;
         grid = new Cell[this.numRows][this.numCols];
         numMines = (int)(numRows * numCols * .15);
+        numMarks = numMines;
         setupBoard();
     }
 
@@ -174,4 +176,11 @@ public class Minesweeper {
         return 0; // game not over
     }
 
+    public int getNumMarks() {
+        return numMarks;
+    }
+
+    public void setNumMarks(int numMarks) {
+        this.numMarks = numMarks;
+    }
 }
