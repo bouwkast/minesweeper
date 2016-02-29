@@ -18,14 +18,14 @@ public class Minesweeper {
         numMarks = numMines;
         setupBoard();
     }
-    public Minesweeper(int numRows, int numCols) {
+    public Minesweeper(int numRows, int numCols, int numMines) {
         if(numRows > 0 && numRows < 50)
             this.numRows = numRows;
         if(numCols > 0 && numCols < 50)
             this.numCols = numCols;
         grid = new Cell[this.numRows][this.numCols];
-        numMines = (int)(numRows * numCols * .15);
-        numMarks = numMines;
+        this.numMines = numMines;
+        this.numMarks = numMines;
         setupBoard();
     }
 
@@ -43,7 +43,6 @@ public class Minesweeper {
 
     public void placeMines(int excludeRow, int excludeCol) {
         int iterations = numMines;
-
         while(iterations > 0) {
             Random random = new Random();
             int row = random.nextInt(numRows);

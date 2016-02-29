@@ -3,20 +3,22 @@ package view;
 import game.Minesweeper;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 public class MineGUI extends JFrame {
 //    private Minesweeper game;
-    private int numRows, numCols;
+    private int numRows, numCols, difficulty;
     private JButton board[][];
     private JPanel mainPanel;
     private final int SQUARE_SIZE = 25; // each cell with be a 10x10 pixel square
     private JMenuItem restart;
+    private JMenuItem beginner;
+    private JMenuItem intermediate;
+    private JMenuItem expert;
     private JMenuBar menuBar;
-    private JMenu fileItem;
+    private JMenu fileMenu;
     private JPanel bombsLeftPanel;
     private JLabel bombsLeft;
 
@@ -47,10 +49,16 @@ public class MineGUI extends JFrame {
     private void initializeFileMenu() {
         menuBar = new JMenuBar();
         restart = new JMenuItem("Restart Game");
-        fileItem = new JMenu("File");
+        beginner = new JMenuItem("Beginner");
+        intermediate = new JMenuItem("Intermediate");
+        expert = new JMenuItem("Expert");
+        fileMenu = new JMenu("File");
 
-        fileItem.add(restart);
-        menuBar.add(restart);
+        fileMenu.add(beginner);
+        fileMenu.add(intermediate);
+        fileMenu.add(expert);
+        fileMenu.add(restart);
+        menuBar.add(fileMenu);
 
         this.add(menuBar);
         this.setJMenuBar(menuBar);
@@ -107,6 +115,9 @@ public class MineGUI extends JFrame {
             }
         }
         restart.addActionListener(listener);
+        beginner.addActionListener(listener);
+        intermediate.addActionListener(listener);
+        expert.addActionListener(listener);
     }
 
     public void revealButtons(Minesweeper game) {
@@ -129,6 +140,16 @@ public class MineGUI extends JFrame {
 
     public JMenuItem getRestart() {
         return restart;
+    }
+
+    public JMenuItem getBeginner() { return beginner; }
+
+    public JMenuItem getIntermediate() {
+        return intermediate;
+    }
+
+    public JMenuItem getExpert () {
+        return expert;
     }
 
     public void disableBoard() {

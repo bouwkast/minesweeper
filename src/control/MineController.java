@@ -14,7 +14,7 @@ public class MineController {
     private Minesweeper game;
     private MineGUI view;
 
-    private int selRow, selCol;
+    private int selRow, selCol, difficulty = 0;
 
     private boolean firstClick = true;
 
@@ -102,11 +102,38 @@ public class MineController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == view.getRestart()) {
-                game = new Minesweeper();
+                int numRows = game.getNumRows();
+                int numCols = game.getNumCols();
+                int numBombs = game.getNumMines();
+                game = new Minesweeper(numRows, numCols, numBombs);
                 view.enableBoard();
                 view.resetButtons();
                 firstClick = true;
-            } else {
+            } else if(e.getSource() == view.getBeginner()) {
+                difficulty = 1;
+                game = new Minesweeper(9, 9, 10);
+                view.dispose();
+                view = new MineGUI(game);
+                view.addMineListener(new MineListener(), new MineMouseListener());
+//                view.resetButtons();
+                firstClick = true;
+            } else if(e.getSource() == view.getIntermediate()) {
+                game = new Minesweeper(16, 16, 40);
+                view.dispose();
+                view = new MineGUI(game);
+                view.addMineListener(new MineListener(), new MineMouseListener());
+//                view.resetButtons();
+                firstClick = true;
+            } else if(e.getSource() == view.getExpert()) {
+                game = new Minesweeper(16, 30, 99);
+                view.dispose();
+                view = new MineGUI(game);
+                view.addMineListener(new MineListener(), new MineMouseListener());
+//                view.resetButtons();
+                firstClick = true;
+            }
+
+            else {
                 findCell(e);
                 if (!game.getGrid()[selRow][selCol].isMarked()) {
                     if (firstClick) {
