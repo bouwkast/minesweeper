@@ -155,7 +155,7 @@ public class MineController {
                         view.disableBoard();
                     } else if (winner == 1) {
                         view.setTitle("WIN");
-                        view.findBombs(game);
+                        view.markBombs(game);
                         view.disableBoard();
                     }
 

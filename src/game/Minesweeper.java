@@ -161,13 +161,24 @@ public class Minesweeper {
         return true;
     }
 
+    public boolean areAllCellsRevealed() {
+        for(int row = 0; row < numRows; ++row) {
+            for(int col = 0; col < numCols; ++col) {
+                if(!grid[row][col].isBomb() && !grid[row][col].isRevealed()) {
+                    return false; // loss
+                }
+            }
+        }
+        return true;
+    }
+
     public int win() {
         for(int row = 0; row < numRows; ++row) {
             for(int col = 0; col < numCols; ++col) {
                 if(grid[row][col].isBomb() && grid[row][col].isRevealed()) {
                     return 2; // loss
                 }
-                if(areAllBombsMarked()) {
+                if(areAllCellsRevealed()) {
                     return 1; // win
                 }
             }

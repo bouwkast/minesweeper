@@ -99,6 +99,16 @@ public class MineGUI extends JFrame {
         }
     }
 
+    public void markBombs(Minesweeper game) {
+        for(int row = 0; row < game.getNumRows(); ++row) {
+            for (int col = 0; col < game.getNumCols(); ++col) {
+                if(game.getGrid()[row][col].isBomb() && !game.getGrid()[row][col].isMarked()) {
+                    board[row][col].setText("X");
+                }
+            }
+        }
+    }
+
     public JButton[][] getBoard() {
         return board;
     }
