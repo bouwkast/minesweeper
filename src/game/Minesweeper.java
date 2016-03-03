@@ -5,6 +5,9 @@ import objects.Cell;
 
 import java.util.Random;
 
+//TODO Add a solver method to ensure that each generated board has its own unique solution
+//TODO Add in a stipulation to ensure that the surrounding cells for the first point clicked aren't bombs
+
 public class Minesweeper {
 
     private final int DEFAULT_VAL = 9; // default number of rows/cols
