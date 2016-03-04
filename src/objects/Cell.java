@@ -7,6 +7,7 @@ public class Cell {
     private boolean isMarked; // if the Cell is marked for being a bomb
     private int neighborMines;
     private boolean isFirst; // if it is the first Cell to have been chosen, we don't want to put a bomb there
+    private boolean exclude; // if true, do not place a bomb here
 
     public Cell(boolean isBomb) {
         this.isBomb = isBomb;
@@ -14,6 +15,7 @@ public class Cell {
         isMarked = false;
         neighborMines = 0;
         isFirst = false;
+        exclude = false;
     }
 
     public boolean isRevealed() {
@@ -55,5 +57,13 @@ public class Cell {
 
     public void setFirst(boolean first) {
         isFirst = first;
+    }
+
+    public boolean isExclude() {
+        return exclude;
+    }
+
+    public void setExclude(boolean exclude) {
+        this.exclude = exclude;
     }
 }

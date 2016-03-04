@@ -6,7 +6,6 @@ import objects.Cell;
 import java.util.Random;
 
 //TODO Add a solver method to ensure that each generated board has its own unique solution
-//TODO Add in a stipulation to ensure that the surrounding cells for the first point clicked aren't bombs
 
 public class Minesweeper {
 
@@ -45,23 +44,57 @@ public class Minesweeper {
     }
 
     public void placeMines(int excludeRow, int excludeCol) {
+        firstClickSetExcludes(excludeRow, excludeCol);
         int iterations = numMines;
         while(iterations > 0) {
             Random random = new Random();
             int row = random.nextInt(numRows);
-            while(row == excludeRow)
-                row = random.nextInt(numRows);
             int col = random.nextInt(numCols);
-            while(col == excludeCol)
-                col = random.nextInt(numCols);
 
             // Transfer over to a map/set/array for more efficiency
-            if(!grid[row][col].isBomb()) {
+            if(!grid[row][col].isBomb() && !grid[row][col].isExclude()) {
                 grid[row][col].setBomb(true);
                 --iterations;
             }
         }
         calcNeighbors();
+    }
+
+    private void firstClickSetExcludes(int row, int col) {
+        grid[row][col].setExclude(true);
+        // up
+        if(row - 1 > -1) {
+            grid[row - 1][col].setExclude(true);
+        }
+        // up right
+        if(row - 1 > -1 && col + 1 < numCols) {
+            grid[row - 1][col + 1].setExclude(true);
+        }
+        // right
+        if(col + 1 < numCols) {
+            grid[row][col+1].setExclude(true);
+        }
+        // right down
+        if(row + 1 < numRows && col + 1 < numCols) {
+            grid[row+1][col+1].setExclude(true);
+        }
+        // down
+        if(row + 1 < numRows) {
+            grid[row+1][col].setExclude(true);
+        }
+        // down left
+        if(row + 1 < numRows && col - 1 > -1) {
+            grid[row+1][col-1].setExclude(true);
+        }
+        // left
+        if(col - 1 > -1) {
+            grid[row][col-1].setExclude(true);
+        }
+        // up left
+        if(row - 1 > -1 && col - 1 > -1) {
+            grid[row - 1][col - 1].setExclude(true);
+        }
+
     }
 
     public int getNumRows() {
