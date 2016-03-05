@@ -5,8 +5,6 @@ import view.MineGUI;
 public class MineDriver {
 
     public static void main(String[] args) {
-
-
         Minesweeper theModel = new Minesweeper();
         MineGUI theView = new MineGUI(theModel);
 

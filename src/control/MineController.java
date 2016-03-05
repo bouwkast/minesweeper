@@ -14,7 +14,7 @@ public class MineController {
     private Minesweeper game;
     private MineGUI view;
 
-    private int selRow, selCol, difficulty = 0;
+    private int selRow, selCol;
 
     private boolean firstClick = true;
 
@@ -53,15 +53,15 @@ public class MineController {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
-            if(e.getButton() == MouseEvent.BUTTON3) {
+            if (e.getButton() == MouseEvent.BUTTON3) {
                 findCell(e);
-                if(game.getGrid()[selRow][selCol].isMarked() && !game.getGrid()[selRow][selCol].isRevealed()) {
+                if (game.getGrid()[selRow][selCol].isMarked() && !game.getGrid()[selRow][selCol].isRevealed()) {
                     game.getGrid()[selRow][selCol].setMarked(false);
                     game.setNumMarks(game.getNumMarks() + 1);
                     view.getButtonAt(selRow, selCol).setText("");
                     view.changeBombsLeft(game.getNumMarks());
                 } else {
-                    if(game.getNumMarks() > 0 && !game.getGrid()[selRow][selCol].isRevealed()) {
+                    if (game.getNumMarks() > 0 && !game.getGrid()[selRow][selCol].isRevealed()) {
                         game.getGrid()[selRow][selCol].setMarked(true);
                         view.getButtonAt(selRow, selCol).setText("X");
                         game.setNumMarks(game.getNumMarks() - 1);
@@ -109,31 +109,16 @@ public class MineController {
                 view.enableBoard();
                 view.resetButtons();
                 firstClick = true;
-            } else if(e.getSource() == view.getBeginner()) {
-                difficulty = 1;
+            } else if (e.getSource() == view.getBeginner()) {
                 game = new Minesweeper(9, 9, 10);
-                view.dispose();
-                view = new MineGUI(game);
-                view.addMineListener(new MineListener(), new MineMouseListener());
-//                view.resetButtons();
-                firstClick = true;
-            } else if(e.getSource() == view.getIntermediate()) {
+                restartGame();
+            } else if (e.getSource() == view.getIntermediate()) {
                 game = new Minesweeper(16, 16, 40);
-                view.dispose();
-                view = new MineGUI(game);
-                view.addMineListener(new MineListener(), new MineMouseListener());
-//                view.resetButtons();
-                firstClick = true;
-            } else if(e.getSource() == view.getExpert()) {
+                restartGame();
+            } else if (e.getSource() == view.getExpert()) {
                 game = new Minesweeper(16, 30, 99);
-                view.dispose();
-                view = new MineGUI(game);
-                view.addMineListener(new MineListener(), new MineMouseListener());
-//                view.resetButtons();
-                firstClick = true;
-            }
-
-            else {
+                restartGame();
+            } else {
                 findCell(e);
                 if (!game.getGrid()[selRow][selCol].isMarked()) {
                     if (firstClick) {
@@ -163,15 +148,22 @@ public class MineController {
                 }
             }
         }
+
+        private void restartGame() {
+            view.dispose();
+            view = new MineGUI(game);
+            view.addMineListener(new MineListener(), new MineMouseListener());
+            firstClick = true;
+        }
     }
 
     /*
     Finds the Cell that was pressed and sets its row and column value int our selRow and selCol variables
      */
     private void findCell(AWTEvent e) {
-        for(int row = 0; row < game.getNumRows(); ++row) {
-            for(int col = 0; col < game.getNumCols(); ++col) {
-                if(e.getSource() == view.getButtonAt(row, col)) {
+        for (int row = 0; row < game.getNumRows(); ++row) {
+            for (int col = 0; col < game.getNumCols(); ++col) {
+                if (e.getSource() == view.getButtonAt(row, col)) {
                     selRow = row;
                     selCol = col;
                 }

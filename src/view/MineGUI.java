@@ -62,8 +62,8 @@ public class MineGUI extends JFrame {
 
     private void createButtons(Minesweeper game) {
         board = new JButton[game.getNumRows()][game.getNumCols()];
-        for(int row = 0; row < game.getNumRows(); ++row) {
-            for(int col = 0; col < game.getNumCols(); ++col) {
+        for (int row = 0; row < game.getNumRows(); ++row) {
+            for (int col = 0; col < game.getNumCols(); ++col) {
                 board[row][col] = new JButton("");
                 board[row][col].setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 board[row][col].getModel().setPressed(false);
@@ -77,7 +77,7 @@ public class MineGUI extends JFrame {
     }
 
     public void resetButtons() {
-        for(int row = 0; row < numRows; ++row) {
+        for (int row = 0; row < numRows; ++row) {
             for (int col = 0; col < numCols; ++col) {
                 board[row][col].setText("");
                 board[row][col].setBackground(Color.WHITE);
@@ -86,9 +86,9 @@ public class MineGUI extends JFrame {
     }
 
     public void findBombs(Minesweeper game) {
-        for(int row = 0; row < game.getNumRows(); ++row) {
+        for (int row = 0; row < game.getNumRows(); ++row) {
             for (int col = 0; col < game.getNumCols(); ++col) {
-                if(game.getGrid()[row][col].isBomb()) {
+                if (game.getGrid()[row][col].isBomb()) {
                     board[row][col].setText("B");
                 }
             }
@@ -96,9 +96,9 @@ public class MineGUI extends JFrame {
     }
 
     public void markBombs(Minesweeper game) {
-        for(int row = 0; row < game.getNumRows(); ++row) {
+        for (int row = 0; row < game.getNumRows(); ++row) {
             for (int col = 0; col < game.getNumCols(); ++col) {
-                if(game.getGrid()[row][col].isBomb() && !game.getGrid()[row][col].isMarked()) {
+                if (game.getGrid()[row][col].isBomb() && !game.getGrid()[row][col].isMarked()) {
                     board[row][col].setText("X");
                 }
             }
@@ -114,8 +114,8 @@ public class MineGUI extends JFrame {
     }
 
     public void addMineListener(ActionListener listener, MouseListener mouseListener) {
-        for(int row = 0; row < numRows; ++row) {
-            for(int col = 0; col < numCols; ++col) {
+        for (int row = 0; row < numRows; ++row) {
+            for (int col = 0; col < numCols; ++col) {
                 board[row][col].addActionListener(listener);
                 board[row][col].addMouseListener(mouseListener);
             }
@@ -127,15 +127,15 @@ public class MineGUI extends JFrame {
     }
 
     public void revealButtons(Minesweeper game) {
-        for(int row = 0; row < numRows; ++row) {
-            for(int col = 0; col < numCols; ++col) {
-                if(!game.getGrid()[row][col].isBomb() && !game.getGrid()[row][col].isMarked() && game.getGrid()[row][col].isRevealed()) {
-                   if(game.getCellAt(row, col).getNeighborMines() != 0)
-                       board[row][col].setText("" + game.getCellAt(row, col).getNeighborMines());
+        for (int row = 0; row < numRows; ++row) {
+            for (int col = 0; col < numCols; ++col) {
+                if (!game.getGrid()[row][col].isBomb() && !game.getGrid()[row][col].isMarked() && game.getGrid()[row][col].isRevealed()) {
+                    if (game.getCellAt(row, col).getNeighborMines() != 0)
+                        board[row][col].setText("" + game.getCellAt(row, col).getNeighborMines());
                     else
-                       board[row][col].setText("");
+                        board[row][col].setText("");
                 }
-                if(game.getGrid()[row][col].isRevealed() && !game.getGrid()[row][col].isMarked()) {
+                if (game.getGrid()[row][col].isRevealed() && !game.getGrid()[row][col].isMarked()) {
                     board[row][col].setBackground(Color.LIGHT_GRAY);
                 } else {
                     board[row][col].setBackground(Color.WHITE);
@@ -148,18 +148,20 @@ public class MineGUI extends JFrame {
         return restart;
     }
 
-    public JMenuItem getBeginner() { return beginner; }
+    public JMenuItem getBeginner() {
+        return beginner;
+    }
 
     public JMenuItem getIntermediate() {
         return intermediate;
     }
 
-    public JMenuItem getExpert () {
+    public JMenuItem getExpert() {
         return expert;
     }
 
     public void disableBoard() {
-        for(int row = 0; row < numRows; ++row) {
+        for (int row = 0; row < numRows; ++row) {
             for (int col = 0; col < numCols; ++col) {
                 board[row][col].setEnabled(false);
             }
@@ -167,7 +169,7 @@ public class MineGUI extends JFrame {
     }
 
     public void enableBoard() {
-        for(int row = 0; row < numRows; ++row) {
+        for (int row = 0; row < numRows; ++row) {
             for (int col = 0; col < numCols; ++col) {
                 board[row][col].setEnabled(true);
             }
