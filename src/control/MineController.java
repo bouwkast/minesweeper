@@ -30,7 +30,7 @@ public class MineController {
          * Invoked when the mouse button has been clicked (pressed
          * and released) on a component.
          *
-         * @param e
+         * @param e is the MouseEvent
          */
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -39,7 +39,7 @@ public class MineController {
         /**
          * Invoked when a mouse button has been pressed on a component.
          *
-         * @param e
+         * @param e is the MouseEvent
          */
         @Override
         public void mousePressed(MouseEvent e) {
@@ -49,7 +49,7 @@ public class MineController {
         /**
          * Invoked when a mouse button has been released on a component.
          *
-         * @param e
+         * @param e is the MouseEvent
          */
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -74,7 +74,7 @@ public class MineController {
         /**
          * Invoked when the mouse enters a component.
          *
-         * @param e
+         * @param e is the MouseEvent
          */
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -84,7 +84,7 @@ public class MineController {
         /**
          * Invoked when the mouse exits a component.
          *
-         * @param e
+         * @param e is the MouseEvent
          */
         @Override
         public void mouseExited(MouseEvent e) {
@@ -97,7 +97,7 @@ public class MineController {
         /**
          * Invoked when an action occurs.
          *
-         * @param e
+         * @param e is the ActionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {
