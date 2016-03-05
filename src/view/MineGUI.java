@@ -8,18 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 public class MineGUI extends JFrame {
-//    private Minesweeper game;
-    private int numRows, numCols, difficulty;
+    private int numRows, numCols; // number of rows and columns taken from the game
     private JButton board[][];
     private JPanel mainPanel;
-    private final int SQUARE_SIZE = 25; // each cell with be a 10x10 pixel square
-    private JMenuItem restart;
-    private JMenuItem beginner;
+    private final int SQUARE_SIZE = 25; // dimensions for each square cell in pixels
+    private JMenuItem restart; // item to restart the game
+    private JMenuItem beginner; // beginner option
     private JMenuItem intermediate;
     private JMenuItem expert;
-    private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JPanel bombsLeftPanel;
     private JLabel bombsLeft;
 
     public MineGUI(Minesweeper game) {
@@ -39,7 +35,7 @@ public class MineGUI extends JFrame {
     }
 
     private void initializeBombsLeftPanel(Minesweeper game) {
-        bombsLeftPanel = new JPanel(new FlowLayout());
+        JPanel bombsLeftPanel = new JPanel(new FlowLayout());
         bombsLeft = new JLabel("Bombs Left: " + game.getNumMarks());
         bombsLeftPanel.add(bombsLeft);
         bombsLeftPanel.setPreferredSize(new Dimension(SQUARE_SIZE * numCols, SQUARE_SIZE));
@@ -47,12 +43,12 @@ public class MineGUI extends JFrame {
     }
 
     private void initializeFileMenu() {
-        menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
         restart = new JMenuItem("Restart Game");
         beginner = new JMenuItem("Beginner");
         intermediate = new JMenuItem("Intermediate");
         expert = new JMenuItem("Expert");
-        fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
 
         fileMenu.add(beginner);
         fileMenu.add(intermediate);
